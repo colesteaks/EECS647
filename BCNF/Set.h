@@ -22,7 +22,7 @@ public:
 	void Union(Set* s);
 protected:
 	bool VContains(string v);
-	vector<string> Vunion(vector<string> s);
+	vector<string> VUnion(vector<string> s);
 	bool VIsEqual(vector<string> s);
 private:
 	vector<string> mSet;

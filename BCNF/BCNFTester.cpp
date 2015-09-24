@@ -1,3 +1,4 @@
+
 #include "BCNFTester.h"
 using namespace std;
 void BCNFTester::RunTests(BCNFCalculator* calc) {
