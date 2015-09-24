@@ -3,8 +3,15 @@ using namespace std;
 
 void BCNFTester::RunTests(BCNFCalculator* calc) {
 	TestA(calc);
-	//TestB(calc);
-	//TestWikipedia(calc);
+	Test1a(calc);
+	Test1b(calc);
+	Test1c(calc);
+	Test1d(calc);
+	Test1e(calc);
+	Test1f(calc);
+	Test1g(calc);
+	Test1h(calc);
+	Test1i(calc);
 }
 
 void BCNFTester::TestA(BCNFCalculator* calc) {
@@ -13,17 +20,137 @@ void BCNFTester::TestA(BCNFCalculator* calc) {
 	pS.push_back(new FunctionalDependency("EID --> Ename")); //ADDED DEPENDENCIES
 	pS.push_back(new FunctionalDependency("PID --> Pname"));
 	pS.push_back(new FunctionalDependency("EID PID--> Hours"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "TestA\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+	/*
 	std::vector<Set*> pExpectedRelations;
 	pExpectedRelations.push_back(new Set("EID Ename")); //ADDED EXPECTED RELATIONS
 	pExpectedRelations.push_back(new Set("PID Pname"));
 	pExpectedRelations.push_back(new Set("EID PID Hours"));
-	RunSingleTest(calc, pSet, pS, pExpectedRelations, "Test A");
+	RunSingleTest(calc, pSet, pS, pExpectedRelations, "Test A");*/
 }
-/*
-void BCNFTester::TestB(BCNFCalculator* calc) {
-	//add another relationship test
+
+void BCNFTester::Test1a(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("A --> B")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("A --> C"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1a\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
 }
-*/
+
+void BCNFTester::Test1b(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("A B --> C")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("C --> D"));
+	pS.push_back(new FunctionalDependency("D --> A"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1b\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
+void BCNFTester::Test1c(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("B --> C")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("B --> D"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1c\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
+void BCNFTester::Test1d(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("A B --> C")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("B C --> D"));
+	pS.push_back(new FunctionalDependency("C D --> A"));
+	pS.push_back(new FunctionalDependency("A D --> B"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1d\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
+void BCNFTester::Test1e(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("A --> B")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("B --> C"));
+	pS.push_back(new FunctionalDependency("C --> D"));
+	pS.push_back(new FunctionalDependency("D --> A"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1e\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
+void BCNFTester::Test1f(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("AB --> CD")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("CD --> A"));
+	pS.push_back(new FunctionalDependency("AD --> B"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1f\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
+void BCNFTester::Test1g(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D E"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("AB --> C")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("DE --> C"));
+	pS.push_back(new FunctionalDependency("B --> D"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1g\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
+void BCNFTester::Test1h(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D E"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("A --> C")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("C --> D"));
+	pS.push_back(new FunctionalDependency("D --> E"));
+	pS.push_back(new FunctionalDependency("E --> A"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1h\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
+void BCNFTester::Test1i(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D E"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("AB --> C")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("C --> D"));
+	pS.push_back(new FunctionalDependency("D --> BE"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1i\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
 void BCNFTester::RunSingleTest(BCNFCalculator* calc, Set* R, FDSet S, std::vector<Set*>& expected, std::string title) {
 	cout << "\n==================\nTitle:" << title << "\n";
 	RunSingleTest(calc, R, S, expected);
