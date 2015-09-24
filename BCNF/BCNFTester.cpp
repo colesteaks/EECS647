@@ -3,8 +3,8 @@
 using namespace std;
 void BCNFTester::RunTests(BCNFCalculator* calc) {
 	TestA(calc);
-	TestB(calc);
-	TestWikipedia(calc);
+	//TestB(calc);
+	//TestWikipedia(calc);
 }
 
 void BCNFTester::TestA(BCNFCalculator* calc) {
