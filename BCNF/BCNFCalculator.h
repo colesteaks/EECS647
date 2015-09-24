@@ -12,7 +12,7 @@ public:
 	Set* Closure(Set* Q, FDSet S);
 private:
 	bool IsKey(Set* possibleKey, Set* relation);
-	void Split(Set* R, Set*& R1, Set*& R2, FDSet S, FDSet& S1, FDSet& S2, Set* problemAs);
-	void SplitFDs(Set* R, Set* R1, FDSet S, FDSet& S1);
+	void Split(Set* R, FDSet S, Set*& R1, Set*& R2, FDSet& S1, FDSet& S2, Set* problemAs);
+	void SplitFDs(Set* R, Set*& R1, FDSet S, FDSet& S1);
 	vector<Set*> GetAllSubsets(Set* S);
 };

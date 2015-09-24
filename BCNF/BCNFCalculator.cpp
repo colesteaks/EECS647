@@ -1,7 +1,7 @@
 #include "BCNFCalculator.h"
 using namespace std;
 
-vector<Set*> BCNFCalculator::BCNF(Set* R, FDSet S) {
+std::vector<Set*> BCNFCalculator::BCNF(Set* R, FDSet S) {
 	if(S.size() > 0){
 		for (size_t i = 0; i < S.size(); i++) {
 			Set* pAs = S[i]->GetA();
@@ -10,15 +10,15 @@ vector<Set*> BCNFCalculator::BCNF(Set* R, FDSet S) {
 				//define split variables
 				Set* R1;
 				Set* R2;
-				vector<FunctionalDependency*> S1;
-				vector<FunctionalDependency*> S2;
+				std::vector<FunctionalDependency*> S1;
+				std::vector<FunctionalDependency*> S2;
 
 				//split relation and functional dependencies
 				Split(R, S, R1, R2, S1, S2, pAs);
 
 				//recursively call BCNF on the new relations and FD sets
-				vector<Set*> pR1BCNF = BCNF(R1, S1);
-				vector<Set*> pR2BCNF = BCNF(R2, S2);
+				std::vector<Set*> pR1BCNF = BCNF(R1, S1);
+				std::vector<Set*> pR2BCNF = BCNF(R2, S2);
 
 				//merge sets of relations
 				for (size_t i = 0; i < pR2BCNF.size(); i++) {
@@ -31,7 +31,7 @@ vector<Set*> BCNFCalculator::BCNF(Set* R, FDSet S) {
 		}
 	}
 	//all keys checked out so return the relation we were given
-	vector<Set*> pRelationSet;
+	std::vector<Set*> pRelationSet;
 	pRelationSet.push_back(R);
 	return pRelationSet;
 }
@@ -56,7 +56,7 @@ Set* BCNFCalculator::Closure(Set* Q, FDSet S) {
 
 bool BCNFCalculator::IsKey(Set* possibleKey, Set* relation) {return (relation->IsSubsetOf(possibleKey));}
 
-void BCNFCalculator::Split(Set* R, Set*& R1, Set*& R2, FDSet S, FDSet& S1, FDSet& S2, Set* problemAs){
+void BCNFCalculator::Split(Set* R, FDSet S, Set*& R1, Set*& R2,  FDSet& S1, FDSet& S2, Set* problemAs){
 	R1 = Closure (problemAs, S);
 	R1->Intersect(R);
 	R2 = new Set(R);
@@ -68,7 +68,7 @@ void BCNFCalculator::Split(Set* R, Set*& R1, Set*& R2, FDSet S, FDSet& S1, FDSet
 }
 
 void BCNFCalculator::SplitFDs(Set* R, Set*& R1, FDSet S, FDSet& S1) {
-	vector<Set*> pSubsets = GetAllSubsets(R1);
+	std::vector<Set*> pSubsets = GetAllSubsets(R1);
 
 	for (int i = 0; i < pSubsets.size(); i++) {					//check each S for allowable
 		Set* pAllowable = pSubsets[i];
@@ -77,34 +77,35 @@ void BCNFCalculator::SplitFDs(Set* R, Set*& R1, FDSet S, FDSet& S1) {
 		pAllowableClosure->Intersect(R1);
 
 		for(size_t j = 0; j < pAllowableClosure->Size(); j++) {
-			string pRawSet = pAllowable->ToRawSet();
+			std::string pRawSet = pAllowable->ToRawSet();
 			S1.push_back(new FunctionalDependency(pRawSet + " --> " + pAllowableClosure->Get(j)));
 		}
 	}
 }
 
 
-vector<Set*> BCNFCalculator::GetAllSubsets(Set* S) {
-	vector<Set*> pSubsets;
+std::vector<Set*> BCNFCalculator::GetAllSubsets(Set* S) {
+	std::vector<Set*> pSubsets;
 	int numElements = S->Size();
-	int numSubsets = pow(2, numElements);
+	int numSubsets = numElements*numElements;
 
 	Set* pNewSubset;
 	for(int i = 1; i< numSubsets; i++){
 		pNewSubset = new Set();
 		bitset<32> x(i);
-		ostringstream pTempOut;
+		std::ostringstream pTempOut;
 		pTempOut << x;
+		std::string pX = pTempOut.str();
 		for (int q = 0; q < numElements; q++){
-			string pTempString = string("") + pX[31 - q];
-			istringstream pTempIn(pTempString);
+			std::string pTempString = std::string("") + pX[31 - q];
+			std::istringstream pTempIn(pTempString);
 			int oneOrZero;
 			pTempIn >> oneOrZero;
 			if (oneOrZero == 1) {
 				pNewSubset->Union(new Set(S->Get(q)));
 			}
 		}
-		pSubsets->push_back(pNewSubset);
+		pSubsets.push_back(pNewSubset);
 	}
 	return pSubsets;
 }

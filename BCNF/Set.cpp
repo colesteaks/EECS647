@@ -1,9 +1,9 @@
 #include "Set.h"
+using namespace std;
 
-
-Set::Set(string spaceDelimitedSet) {
-	string pAtomicValue;
-	istringstream in(spaceDelimitedSet);
+Set::Set(std::string spaceDelimitedSet) {
+	std::string pAtomicValue;
+	std::istringstream in(spaceDelimitedSet);
 
 	while (in >> pAtomicValue) {
 		mSet.push_back(pAtomicValue);
@@ -11,11 +11,20 @@ Set::Set(string spaceDelimitedSet) {
 }
 
 Set::Set(Set* S) {mSet = S->VUnion(mSet);}
-string Set::Get(int index) {return mSet[index];}
+std::string Set::Get(int index) {return mSet[index];}
 
 bool Set::IsSubsetOf(Set* s) {
 	for (size_t i = 0; i<mSet.size(); i++) {
 		if(!s->VContains(mSet[i])){
+			return false;
+		}
+	}
+	return true;
+}
+
+void Set::Intersect(Set* s){
+	for (size_t i = 0; i < mSet.size(); i++) {
+		if(!s->VContains(mSet[i])) {
 			mSet.erase(mSet.begin() + i);
 			i--;
 		}
@@ -34,23 +43,23 @@ void Set::Subtract(Set* s) {
 	}
 }
 
-string Set::ToRawSet() {
-	string outString;
+std::string Set::ToRawSet() {
+	std::string outString;
 	for(size_t i = 0; i<mSet.size(); i++) {
 		outString = outString + mSet[i] + " ";
 	}
 	return outString;
 }
 
-string Set::ToString() { return "{ " + ToRawSet() + "}"; }
+std::string Set::ToString() { return "{ " + ToRawSet() + "}"; }
 void Set::Union(Set* s) { mSet = s->VUnion(mSet); }
 
-vector<string> Set::VUnion(vector<string> s) {
-	vector<string> pUnion;
-	for (string u : mSet) { //grab all our values
+std::vector<std::string> Set::VUnion(std::vector<std::string> s) {
+	std::vector<std::string> pUnion;
+	for (std::string u : mSet) { //grab all our values
 		pUnion.push_back(u);
 	}
-	for(string q : s) { // For each s check and see if its in our set
+	for(std::string q : s) { // For each s check and see if its in our set
 		if(!VContains(q)) { // if not then add it
 			pUnion.push_back(q);
 		}
@@ -58,8 +67,8 @@ vector<string> Set::VUnion(vector<string> s) {
 	return pUnion;
 }
 
-bool Set::VContains(string v) {
-	for (string s : mSet) {
+bool Set::VContains(std::string v) {
+	for (std::string s : mSet) {
 		if (s == v){
 			return true;
 		}
@@ -67,7 +76,7 @@ bool Set::VContains(string v) {
 	return false;
 }
 
-bool Set::VIsEqual(vector<string> s) {
+bool Set::VIsEqual(std::vector<std::string> s) {
 	if (s.size() != mSet.size()) { return false;}
 	for(size_t i = 0; i < s.size(); i++) {
 		if (!VContains(s[i])) { return false; }

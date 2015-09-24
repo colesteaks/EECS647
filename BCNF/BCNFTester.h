@@ -10,6 +10,6 @@ public:
 	void RunSingleTest(BCNFCalculator* calc, Set* R, FDSet S, vector<Set*>& expected);
 	void RunSingleTest(BCNFCalculator* calc, Set* R, FDSet S, vector<Set*>& expected, string title);
 	void TestA(BCNFCalculator* calc);
-	void TestB(BCNFCalculator* calc);
-	void TestWikipedia(BCNFCalculator* calc);
+	//void TestB(BCNFCalculator* calc);
+	//void TestWikipedia(BCNFCalculator* calc);
 };

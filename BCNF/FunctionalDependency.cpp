@@ -1,8 +1,9 @@
 #include "FunctionalDependency.h"
+using namespace std;
 
-FunctionalDependency::FunctionalDependency(string aArrowB) {
-	string pA;
-	string pB;
+FunctionalDependency::FunctionalDependency(std::string aArrowB) {
+	std::string pA;
+	std::string pB;
 
 	ParseArrow(aArrowB, pA, pB);
 	mA = new Set(pA);
@@ -14,9 +15,9 @@ FunctionalDependency::~FunctionalDependency(){
 	delete mB;
 }
 
-void FunctionalDependency::ParseArrow(string aArrowB, string& pA, string& pB) {
-	sting pInString;
-	istringstream in(aArrowB);
+void FunctionalDependency::ParseArrow(std::string aArrowB, std::string& pA, std::string& pB) {
+	std::string pInString;
+	std::istringstream in(aArrowB);
 
 	bool pInA = true;
 	while (in >> pInString){

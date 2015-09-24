@@ -4,6 +4,7 @@
 #include <vector>
 #include "Set.h"
 using namespace std;
+
 class FunctionalDependency{
 public:
 	FunctionalDependency(string aArrowB);
