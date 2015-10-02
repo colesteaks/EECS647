@@ -4,6 +4,7 @@ using namespace std;
 void BCNFTester::RunTests(BCNFCalculator* calc) {
 	TestA(calc);
 	Test1a(calc);
+	TestComp(calc);
 	Test1b(calc);
 	Test1c(calc);
 	Test1d(calc);
@@ -38,6 +39,18 @@ void BCNFTester::Test1a(BCNFCalculator* calc) {
 	std::vector<FunctionalDependency*> pS;
 	pS.push_back(new FunctionalDependency("A --> B")); //ADDED DEPENDENCIES
 	pS.push_back(new FunctionalDependency("A --> C"));
+	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
+	std::cout<< "Test1a\n";
+	for(size_t i = 0; i < pFinalRelations.size(); i++) {
+		cout << " > " << pFinalRelations[i]->ToString() << "\n";
+	}
+}
+
+void BCNFTester::TestComp(BCNFCalculator* calc) {
+	Set* pSet = new Set("A B C D E F G H I"); //this is where you add your set R
+	std::vector<FunctionalDependency*> pS;
+	pS.push_back(new FunctionalDependency("A --> C D E F G H")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("B --> I"));
 	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
 	std::cout<< "Test1a\n";
 	for(size_t i = 0; i < pFinalRelations.size(); i++) {
@@ -101,9 +114,9 @@ void BCNFTester::Test1e(BCNFCalculator* calc) {
 void BCNFTester::Test1f(BCNFCalculator* calc) {
 	Set* pSet = new Set("A B C D"); //this is where you add your set R
 	std::vector<FunctionalDependency*> pS;
-	pS.push_back(new FunctionalDependency("AB --> CD")); //ADDED DEPENDENCIES
-	pS.push_back(new FunctionalDependency("CD --> A"));
-	pS.push_back(new FunctionalDependency("AD --> B"));
+	pS.push_back(new FunctionalDependency("A B --> C D")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("C D --> A"));
+	pS.push_back(new FunctionalDependency("A D --> B"));
 	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
 	std::cout<< "Test1f\n";
 	for(size_t i = 0; i < pFinalRelations.size(); i++) {
@@ -114,8 +127,8 @@ void BCNFTester::Test1f(BCNFCalculator* calc) {
 void BCNFTester::Test1g(BCNFCalculator* calc) {
 	Set* pSet = new Set("A B C D E"); //this is where you add your set R
 	std::vector<FunctionalDependency*> pS;
-	pS.push_back(new FunctionalDependency("AB --> C")); //ADDED DEPENDENCIES
-	pS.push_back(new FunctionalDependency("DE --> C"));
+	pS.push_back(new FunctionalDependency("A B --> C")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("D E --> C"));
 	pS.push_back(new FunctionalDependency("B --> D"));
 	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
 	std::cout<< "Test1g\n";
@@ -141,9 +154,9 @@ void BCNFTester::Test1h(BCNFCalculator* calc) {
 void BCNFTester::Test1i(BCNFCalculator* calc) {
 	Set* pSet = new Set("A B C D E"); //this is where you add your set R
 	std::vector<FunctionalDependency*> pS;
-	pS.push_back(new FunctionalDependency("AB --> C")); //ADDED DEPENDENCIES
+	pS.push_back(new FunctionalDependency("A B --> C")); //ADDED DEPENDENCIES
 	pS.push_back(new FunctionalDependency("C --> D"));
-	pS.push_back(new FunctionalDependency("D --> BE"));
+	pS.push_back(new FunctionalDependency("D --> B E"));
 	std::vector<Set*> pFinalRelations = calc->BCNF(pSet, pS);
 	std::cout<< "Test1i\n";
 	for(size_t i = 0; i < pFinalRelations.size(); i++) {
