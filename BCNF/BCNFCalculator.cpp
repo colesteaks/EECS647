@@ -47,35 +47,45 @@ Set* BCNFCalculator::Closure(Set* Q, FDSet S) {
 			Set* pBs = S[i]->GetB();			//get the Bs
 
 			if(pAs->IsSubsetOf(pC)) {			//are the As a subset of the closure
-				pC->Union(pBs);					//add to closure
+				pC->Union(pBs);					//if so, add to closure
 			}
 		}
-	} while (pClosureSize != pC->Size());
-	return pC;
+	} while (pClosureSize != pC->Size()); //check to ensure closure set isnt same size as Q
+	return pC; //return the newly built set of closures
 }
 
+//checks if relation is a subset of a "possible key". if so, the set is in BCNF, if not, we run normalization sequence
 bool BCNFCalculator::IsKey(Set* possibleKey, Set* relation) {return (relation->IsSubsetOf(possibleKey));}
 
+//split the set accoridng to the BCNF split relation algorithm, pass in the A that causes the problem
 void BCNFCalculator::Split(Set* R, FDSet S, Set*& R1, Set*& R2,  FDSet& S1, FDSet& S2, Set* problemAs){
+	//first relation is the closure of problem A with the original set intersected with original relation
 	R1 = Closure (problemAs, S);
 	R1->Intersect(R);
+	//R2 is the original relation minus all elements in R1 unioned with problem A
 	R2 = new Set(R);
 	R2->Subtract(R1);
 	R2->Union(problemAs);
 
+	//pass the newly split relations to split functional dependencies
 	SplitFDs(R, R1, S, S1);
 	SplitFDs(R, R2, S, S2);
 }
 
 void BCNFCalculator::SplitFDs(Set* R, Set*& R1, FDSet S, FDSet& S1) {
+	//get all subsets of the split relatiobn
 	std::vector<Set*> pSubsets = GetAllSubsets(R1);
 
 	for (int i = 0; i < pSubsets.size(); i++) {					//check each S for allowable
+		//select each subset
 		Set* pAllowable = pSubsets[i];
+		//create a J = to the closure of the selected subset with the original set - the selected subset, intersected with R1.
 		Set* pAllowableClosure = Closure(pAllowable, S);
 		pAllowableClosure->Subtract(pAllowable);
 		pAllowableClosure->Intersect(R1);
 
+		//for each item in this allowable closure, add new functional dependency from the selected subset above
+		//to the item in teh modified allowable closure
 		for(size_t j = 0; j < pAllowableClosure->Size(); j++) {
 			std::string pRawSet = pAllowable->ToRawSet();
 			S1.push_back(new FunctionalDependency(pRawSet + " --> " + pAllowableClosure->Get(j)));
@@ -83,7 +93,8 @@ void BCNFCalculator::SplitFDs(Set* R, Set*& R1, FDSet S, FDSet& S1) {
 	}
 }
 
-
+//this function runs through the given set, S, and creates a vector that points to all subsets of
+//s
 std::vector<Set*> BCNFCalculator::GetAllSubsets(Set* S) {
 	std::vector<Set*> pSubsets;
 	int numElements = S->Size();
@@ -109,10 +120,3 @@ std::vector<Set*> BCNFCalculator::GetAllSubsets(Set* S) {
 	}
 	return pSubsets;
 }
-
-
-
-
-
-
-
